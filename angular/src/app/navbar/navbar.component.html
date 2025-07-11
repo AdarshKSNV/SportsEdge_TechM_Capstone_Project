@@ -24,8 +24,24 @@
     </a>
   </div>
   <div class="nav-actions">
-    <a (click)="logout()" class="login-btn">
-      <i class="bi bi-box-arrow-right"></i> Logout
-    </a>
+    <!-- Show these buttons when user is logged in -->
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/dashboard" class="profile-btn">
+        <i class="bi bi-person-circle"></i> Profile
+      </a>
+      <a (click)="logout()" class="login-btn">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </a>
+    </ng-container>
+    
+    <!-- Show these buttons when user is not logged in -->
+    <ng-container *ngIf="!isLoggedIn">
+      <a (click)="goToLogin()" class="login-btn">
+        <i class="bi bi-box-arrow-in-right"></i> Login
+      </a>
+      <a (click)="goToRegister()" class="register-btn">
+        <i class="bi bi-person-plus"></i> Register
+      </a>
+    </ng-container>
   </div>
 </nav> 

@@ -90,6 +90,18 @@ export class PlaceOrderComponent {
     });
   }
 ngOnInit(): void {
+  // Check if user is logged in
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    const shouldLogin = confirm('You need to login to place an order. Would you like to login now?');
+    if (shouldLogin) {
+      this.router.navigate(['/login']);
+    } else {
+      this.router.navigate(['/home']);
+    }
+    return;
+  }
+
   this.service.order.subscribe((item) => {
     this.order_item = item;
     if (!item) this.router.navigate(['/cart']);

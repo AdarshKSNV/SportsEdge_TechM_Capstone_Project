@@ -23,7 +23,7 @@ export class LoginComponent {
     this.errorMessage = '';
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-this.authService.storeUserData(response.token, response.username, response.role, response.userId);
+this.authService.storeUserData(response.token, response.username, response.role, response.userId, response.email);
         this.authService.isLoggedInSubject.next(true);
         this.router.navigate(['/home']);
       },

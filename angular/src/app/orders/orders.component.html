@@ -8,12 +8,18 @@
         <h1 class="card-title">{{ item.productName }}</h1>
         <h1 class="cost">{{ item.totalPrice | currency :'INR' }}</h1>
         <h2>Quantity: {{item.quantity}}</h2>
-        <p class="description">Your Order will be delivered soon...Thank You 🙏🙏</p>
-        <div style="display: flex; gap: 10px;">
-          <button class="buy-button" routerLink="/home">Buy Again</button>
-          <button class="track-button" (click)="trackOrder(item)">Track Order</button>
+        <div class="order-status-box">
+          <div class="order-status-message">
+            <i class="bi bi-truck" style="font-size: 2rem; color: #4db6ac; margin-bottom: 8px;"></i>
+            <div class="order-status-text">Your Order will be delivered soon...</div>
+            <div class="order-thankyou-text">Thank You For Shopping With <span style="color:#ff4081;font-weight:bold;">SportsEdge</span> <span style="font-size:1.2em;">💖</span></div>
+          </div>
+          <div class="order-action-buttons">
+            <button class="buy-button" routerLink="/home"><i class="bi bi-bag-plus" style="margin-right:6px;"></i>Buy Again</button>
+            <button class="track-button" (click)="trackOrder(item)"><i class="bi bi-geo-alt" style="margin-right:6px;"></i>Track Order</button>
+            <button class="rate-button" (click)="rateProduct(item)"><i class="bi bi-star" style="margin-right:6px;"></i>Rate Product</button>
+          </div>
         </div>
-        <button class="rate-button" (click)="rateProduct(item)" style="margin-top: 10px; width: 100%;">Rate Product</button>
       </div>
     </div>
   </div>
@@ -34,6 +40,12 @@
 <div *ngIf="trackingModalOpen" class="tracking-modal-overlay">
   <div class="tracking-modal">
     <h2>Tracking for: {{ trackingProductName }}</h2>
+    <!-- Truck Animation Above -->
+    <div class="truck-track-container">
+      <div class="track-line"></div>
+      <img src="assets/truck.svg" class="truck-icon" [style.left.%]="truckShouldStop ? getTruckPosition() : truckPosition" alt="Truck" />
+    </div>
+    <!-- Original Stepper Below -->
     <div class="tracking-timeline">
       <div *ngFor="let step of trackingTimeline; let last = last" class="timeline-step">
         <div class="timeline-icon">

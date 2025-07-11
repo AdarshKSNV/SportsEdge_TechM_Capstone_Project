@@ -65,4 +65,9 @@ export class ProductsService {
   resetAllCartStatuses(): Observable<any> {
     return this.http.post(`${this.baseUrl}/products/resetcart`, {});
   }
+
+  deleteAllCartItemsForUser(): Observable<any> {
+    const userId = localStorage.getItem('userId');
+    return this.http.delete(`${this.baseUrl}/cartitems/user/${userId}`);
+  }
 }

@@ -42,9 +42,17 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   loadCartItems() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     const userId = parseInt(localStorage.getItem('userId') || '0', 10);
     if (!userId || userId <= 0) {
-      alert('User not authenticated.');
+      const shouldLogin = confirm('You need to login to view your cart. Would you like to login now?');
+      if (shouldLogin) {
+        this.router.navigate(['/login']);
+      } else {
+        this.router.navigate(['/home']);
+      }
       return;
     }
 
@@ -59,6 +67,9 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   remove(index: number) {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     const item = this.cart_items[index];
     const productId = item.productId;
 
@@ -75,6 +86,9 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   placeorder(index: number) {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     const item = { ...this.cart_items[index] };
 
     this.products.deleteFromCart(item.productId).subscribe({
@@ -82,7 +96,6 @@ export class CartComponent implements OnInit, OnDestroy {
         this.service.placeorder(item); 
         this.router.navigate(['/place_order']);
         this.cart_items.splice(index, 1);
-       
       },
       error: (error) => {
         console.error('Error placing order:', error);
@@ -92,24 +105,22 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   resetCart() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
     const confirmReset = confirm("Are you sure you want to clear the entire cart?");
     if (!confirmReset) return;
 
-    const userId = parseInt(localStorage.getItem('userId') || '0', 10);
-
-    const deleteTasks = this.cart_items.map(item =>
-      this.products.deleteFromCart(item.productId).toPromise()
-    );
-
-    Promise.all(deleteTasks)
-      .then(() => {
+    this.products.deleteAllCartItemsForUser().subscribe({
+      next: () => {
         this.cart_items = [];
         alert('Cart has been reset successfully!');
-      })
-      .catch((error) => {
+      },
+      error: (error) => {
         console.error('Error resetting cart:', error);
         alert('Failed to reset cart. Please try again.');
-      });
+      }
+    });
   }
 
   icon_click() {

@@ -24,7 +24,12 @@ export class WishlistComponent {
   loadWishlistItems() {
     const userId = localStorage.getItem('userId');
     if (!userId) {
-      alert('User not authenticated.');
+      const shouldLogin = confirm('You need to login to view your wishlist. Would you like to login now?');
+      if (shouldLogin) {
+        window.location.href = '/login';
+      } else {
+        window.location.href = '/home';
+      }
       return;
     }
 

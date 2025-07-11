@@ -26,15 +26,22 @@ export class ProductsComponent {
     private router: Router
   ) {
     
-    this.productsService.getCart().subscribe({
-      next: (data) => {
-        this.cart_items = data;
-      }})
+    // Only load cart and wishlist if user is logged in
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.productsService.getCart().subscribe({
+        next: (data) => {
+          this.cart_items = data;
+        }})
       this.productsService.getWishlist().subscribe({
-      next: (data) => {
-        this.wishlist_items = data;
-      }})
-      this.loadProducts();
+        next: (data) => {
+          this.wishlist_items = data;
+        }})
+    } else {
+      this.cart_items = [];
+      this.wishlist_items = [];
+    }
+    this.loadProducts();
   }
 
  loadProducts() {
@@ -91,7 +98,16 @@ export class ProductsComponent {
   }
 
   add(index: number): void {
-  const userId = parseInt(localStorage.getItem('userId') || '0', 10);
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    const shouldLogin = confirm('You need to login to add items to cart. Would you like to login now?');
+    if (shouldLogin) {
+      this.router.navigate(['/login']);
+    }
+    return;
+  }
+
+  const userIdNum = parseInt(userId, 10);
   const product = this.products[index];
 
   // Check if product already exists in the cart
@@ -122,7 +138,7 @@ export class ProductsComponent {
     img: product.img,
     price: product.price,
     productId: product.id,
-    UserId: userId
+    UserId: userIdNum
   };
 
   this.productsService.addToCart(cartItem).subscribe({
@@ -142,8 +158,17 @@ export class ProductsComponent {
 
 
   buyNow(index: number) {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      const shouldLogin = confirm('You need to login to place an order. Would you like to login now?');
+      if (shouldLogin) {
+        this.router.navigate(['/login']);
+      }
+      return;
+    }
+
     const product = this.products[index];
-    const userId = parseInt(localStorage.getItem('userId') || '0', 10);
+    const userIdNum = parseInt(userId, 10);
 
     const cartItem = {
       name: product.name,
@@ -151,7 +176,7 @@ export class ProductsComponent {
       img: product.img,
       price: product.price,
       productId: product.id,
-      userId: userId
+      userId: userIdNum
     };
 
     if (product.cart_status === "Added to Cart") {
@@ -171,7 +196,16 @@ export class ProductsComponent {
   }
 
 toggleWishlist(index: number): void {
-  const userId = parseInt(localStorage.getItem('userId') || '0', 10);
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    const shouldLogin = confirm('You need to login to add items to wishlist. Would you like to login now?');
+    if (shouldLogin) {
+      this.router.navigate(['/login']);
+    }
+    return;
+  }
+
+  const userIdNum = parseInt(userId, 10);
   const product = this.products[index];
 
   // Check if product already exists in wishlist
@@ -199,7 +233,8 @@ toggleWishlist(index: number): void {
     category: product.category,
     img: product.img,
     price: product.price,
-    productId: product.id
+    productId: product.id,
+    userId: userIdNum
   };
 
   this.productsService.toggleWishlist(wishlistItem).subscribe({

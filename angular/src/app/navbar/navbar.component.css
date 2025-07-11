@@ -96,7 +96,7 @@
   gap: 1rem;
 }
 
-.login-btn {
+.profile-btn {
   padding: 0.5rem 1.5rem;
   border-radius: 6px;
   text-decoration: none;
@@ -110,17 +110,73 @@
   cursor: pointer;
 }
 
-.login-btn i {
+.profile-btn i {
   font-size: 1.2rem;
 }
 
-.login-btn:hover {
+.profile-btn:hover {
   background-color: #4db6ac;
   color: white;
   transform: translateY(-2px);
 }
 
+.profile-btn:active {
+  transform: translateY(0);
+}
+
+.login-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #f44336;
+  border: 2px solid #f44336;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.login-btn i {
+  font-size: 1.2rem;
+}
+
+.login-btn:hover {
+  background-color: #f44336;
+  color: white;
+  transform: translateY(-2px);
+}
+
 .login-btn:active {
+  transform: translateY(0);
+}
+
+.register-btn {
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #4db6ac;
+  border: 2px solid #4db6ac;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.register-btn i {
+  font-size: 1.2rem;
+}
+
+.register-btn:hover {
+  background-color: #4db6ac;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.register-btn:active {
   transform: translateY(0);
 }
 
@@ -145,9 +201,11 @@
 
   .nav-actions {
     width: 100%;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 
-  .login-btn {
+  .profile-btn, .login-btn, .register-btn {
     width: 100%;
     justify-content: center;
   }

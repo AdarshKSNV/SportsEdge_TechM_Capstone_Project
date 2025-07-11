@@ -25,7 +25,7 @@ export class AuthService {
 
 
     
-  storeUserData(token: string, username: string, role: string, userId: number) {
+  storeUserData(token: string, username: string, role: string, userId: number, email?: string) {
   if (userId === undefined || userId === null) {
     console.error('User ID is undefined or null.');
     return;
@@ -35,6 +35,9 @@ export class AuthService {
   localStorage.setItem('username', username);
   localStorage.setItem('role', role);
   localStorage.setItem('userId', userId.toString());
+  if (email) {
+    localStorage.setItem('email', email);
+  }
   console.log('Storing userId:', userId);
 }
 

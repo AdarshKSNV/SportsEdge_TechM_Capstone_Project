@@ -84,24 +84,19 @@ export class RegisterComponent {
     this.authService.register({ username, email, password }).subscribe({
       next: (res) => {
         console.log('Registration successful:', res);
-        this.authService.storeUserData(res.token, res.username, res.role,res.userId);
+        this.authService.storeUserData(res.token, res.username, res.role, res.userId, res.email);
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Registration error:', err);
-        alert('Registration failed. Please try again!');
+        // Try to extract a specific error message from the backend
+        if (err?.error?.message) {
+          this.registerError = err.error.message;
+        } else {
+          this.registerError = 'Registration failed. Please try again!';
+        }
       }
     });
-  }
-
-  onRegister() {
-    if (this.registerForm.valid) {
-      // Implement registration logic here
-      console.log('Form submitted:', this.registerForm.value);
-      this.router.navigate(['/login']);
-    } else {
-      this.registerError = 'Please fill all required fields correctly.';
-    }
   }
 
   onPasswordInput() {

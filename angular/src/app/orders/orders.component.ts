@@ -22,6 +22,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   expectedDelivery: string = '';
   trackingProductName: string = '';
   trackingTimeline: { label: string, date: string, done: boolean, current: boolean }[] = [];
+  // Remove truckPosition and truckInterval
 
   // Rating modal state
   ratingModalOpen = false;
@@ -29,12 +30,30 @@ export class OrdersComponent implements OnInit, OnDestroy {
   ratingFeedback = '';
   ratingProduct: any = null;
 
+  truckPosition = 0;
+  private truckInterval: any;
+  private truckLoops = 0;
+  truckShouldStop = false;
+
   constructor(
     private service: MainserviceService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit() {
+    // Check if user is logged in
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      const shouldLogin = confirm('You need to login to view your orders. Would you like to login now?');
+      if (shouldLogin) {
+        // Navigate to login page
+        window.location.href = '/login';
+      } else {
+        window.location.href = '/home';
+      }
+      return;
+    }
+
     this.loadOrders();
     if (isPlatformBrowser(this.platformId)) {
       document.body.style.background = "url('/assets/homebackground2.jpg') no-repeat center center fixed";
@@ -48,6 +67,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
       document.body.style.background = '';
       document.body.style.backgroundSize = '';
       document.body.style.backgroundColor = '';
+    }
+    if (this.truckInterval) {
+      clearInterval(this.truckInterval);
+      this.truckInterval = null;
     }
   }
 
@@ -94,10 +117,45 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.trackingId = 'TRK' + (order.id || Math.floor(Math.random() * 1000000));
     this.trackingProductName = order.productName;
     this.trackingModalOpen = true;
+    this.startTruckAnimation();
+  }
+
+  startTruckAnimation() {
+    this.truckPosition = 0;
+    this.truckLoops = 0;
+    this.truckShouldStop = false;
+    if (this.truckInterval) clearInterval(this.truckInterval);
+    this.truckInterval = setInterval(() => {
+      this.truckPosition += 0.5;
+      if (this.truckPosition > 95) {
+        this.truckLoops += 1;
+        if (this.truckLoops >= 2) {
+          this.truckShouldStop = true;
+          clearInterval(this.truckInterval);
+          this.truckInterval = null;
+          setTimeout(() => {
+            this.truckPosition = this.getTruckPosition();
+          }, 300);
+        } else {
+          this.truckPosition = 0;
+        }
+      }
+    }, 16);
   }
 
   closeTrackingModal() {
     this.trackingModalOpen = false;
+    if (this.truckInterval) {
+      clearInterval(this.truckInterval);
+      this.truckInterval = null;
+    }
+  }
+
+  getTruckPosition(): number {
+    const currentIdx = this.trackingTimeline.findIndex(step => step.current);
+    const totalSteps = this.trackingTimeline.length - 1;
+    if (currentIdx < 0 || totalSteps === 0) return 0;
+    return (currentIdx / totalSteps) * 90 + 5;
   }
 
   cancelOrder(order: any) {

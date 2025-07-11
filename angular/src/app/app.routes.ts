@@ -9,6 +9,9 @@ import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
 import { BestsellersComponent } from './bestsellers/bestsellers.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileEditComponent } from './profile-edit/profile-edit.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 export const routes: Routes = [
     {
@@ -43,5 +46,14 @@ export const routes: Routes = [
     },
     {
         path: 'orders', component: OrdersComponent
+    },
+    {
+        path: 'dashboard', component: DashboardComponent
+    },
+    {
+        path: 'profile/edit', component: ProfileEditComponent
+    },
+    {
+        path: 'profile/change-password', component: ChangePasswordComponent
     }
 ];

@@ -180,6 +180,32 @@ body {
   transform: scale(1.02);
 }
 
+/* Divider */
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  position: relative;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.divider span {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 1;
+}
+
 /* Switch link */
 .text-center {
   text-align: center;
