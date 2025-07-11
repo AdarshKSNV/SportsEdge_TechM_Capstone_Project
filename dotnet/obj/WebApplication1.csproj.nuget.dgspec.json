@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\siddu\\Downloads\\Sports Edge\\dotnet\\WebApplication1.csproj": {}
+    "D:\\Tech Mahindra Course\\Sports Edge\\dotnet\\WebApplication1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\siddu\\Downloads\\Sports Edge\\dotnet\\WebApplication1.csproj": {
+    "D:\\Tech Mahindra Course\\Sports Edge\\dotnet\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\siddu\\Downloads\\Sports Edge\\dotnet\\WebApplication1.csproj",
+        "projectUniqueName": "D:\\Tech Mahindra Course\\Sports Edge\\dotnet\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "C:\\Users\\siddu\\Downloads\\Sports Edge\\dotnet\\WebApplication1.csproj",
+        "projectPath": "D:\\Tech Mahindra Course\\Sports Edge\\dotnet\\WebApplication1.csproj",
         "packagesPath": "C:\\Users\\siddu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\siddu\\Downloads\\Sports Edge\\dotnet\\obj\\",
+        "outputPath": "D:\\Tech Mahindra Course\\Sports Edge\\dotnet\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

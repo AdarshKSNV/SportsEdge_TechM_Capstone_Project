@@ -50,5 +50,19 @@ namespace WebApplication1.Controllers
 
             return NoContent();
         }
+
+        // ? Delete all cart items for a specific user
+        [HttpDelete("user/{userId}")]
+        public async Task<IActionResult> DeleteAllCartItems(int userId)
+        {
+            var items = await _context.CartItems.Where(x => x.UserId == userId).ToListAsync();
+            if (items == null || items.Count == 0)
+                return NotFound();
+
+            _context.CartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

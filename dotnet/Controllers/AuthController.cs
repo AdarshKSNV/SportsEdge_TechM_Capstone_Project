@@ -87,6 +87,30 @@ namespace WebApplication1.Controllers
 
             return Ok(new { message = "User registered successfully" });
         }
+
+        [HttpPost("change-password")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var user = _userService.GetUserById(request.UserId);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+            if (!_userService.VerifyPassword(request.CurrentPassword, user.Password))
+            {
+                return BadRequest(new { message = "Current password is incorrect" });
+            }
+            user.Password = _userService.Password(request.NewPassword); // Hash if needed
+            _userService.UpdateUser(user);
+            return Ok(new { message = "Password updated successfully" });
+        }
+
+        public class ChangePasswordRequest
+        {
+            public int UserId { get; set; }
+            public string CurrentPassword { get; set; } = string.Empty;
+            public string NewPassword { get; set; } = string.Empty;
+        }
     }
 
     public class LoginRequest

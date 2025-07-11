@@ -8,5 +8,7 @@ namespace WebApplication1.Services
         bool VerifyPassword(string enteredPassword, string dbPassword);
         string Password(string password);
         void CreateUser(User user);
+        User? GetUserById(int id);
+        void UpdateUser(User user);
     }
 }
